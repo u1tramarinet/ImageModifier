@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.2"
+            fx:controller="com.u1tramarinet.imagemodifier.MainController">
+
+    <top>
+        <MenuBar fx:id="topMenuBar"/>
+    </top>
+
+    <bottom>
+        <Label alignment="BOTTOM_CENTER" maxWidth="Infinity" style="-fx-background: #ffffff" text="aaa" fx:id="status"/>
+    </bottom>
+
+    <center>
+        <HBox alignment="CENTER" spacing="10.0">
+            <ImageView fx:id="originalImageView" style="-fx-background: #ffffff"/>
+            <Label text="->"/>
+            <ImageView fx:id="modifiedImageView" style="-fx-background: #ffffff"/>
+        </HBox>
+    </center>
+
+    <left>
+        <VBox spacing="20.0">
+            <padding>
+                <Insets top="10.0" bottom="10.0" left="5.0" right="5.0"/>
+            </padding>
+            <VBox fx:id="colorBoxOriginal" spacing="10.0">
+
+                <padding>
+                    <Insets top="5.0" bottom="5.0" left="5.0" right="5.0"/>
+                </padding>
+
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="color #"/>
+                    <TextField fx:id="colorOriginal" maxWidth="200.0"/>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="A:"/>
+                    <TextField fx:id="alphaOriginal" maxWidth="50.0"/>
+                    <Label text="R:"/>
+                    <TextField fx:id="redOriginal" maxWidth="50.0"/>
+                    <Label text="G:"/>
+                    <TextField fx:id="greenOriginal" maxWidth="50.0"/>
+                    <Label text="B:"/>
+                    <TextField fx:id="blueOriginal" maxWidth="50.0"/>
+                </HBox>
+            </VBox>
+
+            <HBox>
+                <Slider fx:id="thresholdSlider"/>
+                <Label fx:id="thresholdValue" maxWidth="100.0" text="0.0"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT">
+                <Label text="X:"/>
+                <TextField fx:id="x" maxWidth="50.0"/>
+                <Label text="Y:"/>
+                <TextField fx:id="y" maxWidth="50.0"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT">
+                <Label text="A:"/>
+                <TextField fx:id="alpha" maxWidth="50.0"/>
+                <Label text="R:"/>
+                <TextField fx:id="red" maxWidth="50.0"/>
+                <Label text="G:"/>
+                <TextField fx:id="green" maxWidth="50.0"/>
+                <Label text="B:"/>
+                <TextField fx:id="blue" maxWidth="50.0"/>
+            </HBox>
+
+            <HBox alignment="CENTER" spacing="10.0">
+                <Button fx:id="register" text="register"/>
+                <Button fx:id="find" text="find"/>
+                <Label fx:id="findResult" />
+            </HBox>
+        </VBox>
+    </left>
+
+    <right>
+        <VBox spacing="20.0">
+            <padding>
+                <Insets top="10.0" bottom="10.0" left="5.0" right="5.0"/>
+            </padding>
+            <VBox fx:id="colorBoxModified" spacing="10.0">
+                <padding>
+                    <Insets top="5.0" bottom="5.0" left="5.0" right="5.0"/>
+                </padding>
+
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="color #"/>
+                    <TextField fx:id="colorModified" maxWidth="200.0"/>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="A:"/>
+                    <TextField fx:id="alphaModified" maxWidth="50.0"/>
+                    <Label text="R:"/>
+                    <TextField fx:id="redModified" maxWidth="50.0"/>
+                    <Label text="G:"/>
+                    <TextField fx:id="greenModified" maxWidth="50.0"/>
+                    <Label text="B:"/>
+                    <TextField fx:id="blueModified" maxWidth="50.0"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </right>
+
+</BorderPane>
