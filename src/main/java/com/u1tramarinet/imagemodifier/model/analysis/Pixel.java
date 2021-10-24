@@ -1,15 +1,22 @@
 package com.u1tramarinet.imagemodifier.model.analysis;
 
-import com.u1tramarinet.imagemodifier.model.color.RgbColor;
-
-public class Pixel {
+public class Pixel extends Point {
     public final int x;
     public final int y;
-    public final RgbColor rgbColor;
 
-    public Pixel(int x, int y, RgbColor color) {
+    public Pixel(int x, int y, double... coordinates) {
+        super(coordinates);
         this.x = x;
         this.y = y;
-        this.rgbColor = color;
+    }
+
+    public Pixel(int x, int y, Pixel pixel) {
+        this(x, y, (Point) pixel);
+    }
+
+    public Pixel(int x, int y, Point point) {
+        super(point);
+        this.x = x;
+        this.y = y;
     }
 }
