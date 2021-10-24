@@ -74,7 +74,7 @@ public class Clustering {
         return output;
     }
 
-    private List<Point> createInitialCentroids(int number, List<Pixel> pixels) {
+    private List<Point> createInitialCentroids(int numberOfCluster, List<Pixel> pixels) {
         int degree = pixels.get(0).getDegree();
 
         // Calculate range
@@ -97,21 +97,21 @@ public class Clustering {
         // Calculate steps
         double[] step = new double[degree];
         for (int axis = 0; axis < degree; axis++) {
-            step[axis] = (maximums[axis] - minimums[axis]) / (degree + 1);
+            step[axis] = (maximums[axis] - minimums[axis]) / (numberOfCluster + 1);
         }
 
         // Assign indexes
-        int[][] matrix = new int[degree][degree];
+        int[][] matrix = new int[degree][numberOfCluster];
         for (int axis = 0; axis < degree; axis++) {
-            for (int idx = 0; idx < number; idx++) {
-                int clusterIdx = (axis + idx) % number;
+            for (int idx = 0; idx < numberOfCluster; idx++) {
+                int clusterIdx = (axis + idx) % numberOfCluster;
                 matrix[axis][clusterIdx] = idx;
             }
         }
 
         // Create centroids
         List<Point> points = new ArrayList<>();
-        for (int clusterIdx = 0; clusterIdx < number; clusterIdx++) {
+        for (int clusterIdx = 0; clusterIdx < numberOfCluster; clusterIdx++) {
             double[] coordinates = new double[degree];
             for (int axis = 0; axis < degree; axis++) {
                 coordinates[axis] = step[axis] * (matrix[axis][clusterIdx] + 1);
