@@ -1,24 +1,24 @@
 package com.u1tramarinet.imagemodifier.model.color.difference;
 
+import com.u1tramarinet.imagemodifier.model.analysis.Distance;
 import com.u1tramarinet.imagemodifier.model.color.ColorTranslator;
 import com.u1tramarinet.imagemodifier.model.color.LabColor;
 import com.u1tramarinet.imagemodifier.model.color.RgbColor;
 
-public class LabColorDifference implements ColorDifference {
+public class LabColorDistance extends Distance<LabColor> {
 
     private final static RgbColor WHITE = new RgbColor(255, 255, 255, 255);
     private final static RgbColor BLACK = new RgbColor(255, 0, 0, 0);
     private final double MAX;
 
-    public LabColorDifference() {
-        MAX = compare(WHITE, BLACK);
+    public LabColorDistance() {
+        MAX = compare(ColorTranslator.translateToLab(WHITE),
+                ColorTranslator.translateToLab(BLACK));
     }
 
     @Override
-    public double compare(RgbColor one, RgbColor another) {
-        return compare(
-                ColorTranslator.translateToLab(one),
-                ColorTranslator.translateToLab(another));
+    public double get(LabColor one, LabColor another) {
+        return compare(one, another);
     }
 
     private double compare(LabColor one, LabColor another) {

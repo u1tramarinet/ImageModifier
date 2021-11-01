@@ -1,7 +1,7 @@
 package com.u1tramarinet.imagemodifier.model.analysis;
 
-public class Distance {
-    public double get(Point one, Point another) {
+public class Distance<T extends Point> {
+    public double get(T one, T another) {
         if (one.getDegree() != another.getDegree()) {
             throw new IllegalArgumentException();
         }

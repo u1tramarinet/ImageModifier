@@ -31,6 +31,21 @@ public class ColorTranslator {
         };
     }
 
+    public static String getHexString(RgbColor color) {
+        return String.format("%2X", color.alpha) +
+                String.format("%2X", color.red) +
+                String.format("%2X", color.green) +
+                String.format("%2X", color.blue);
+    }
+
+    public static int getIntValue(RgbColor color) {
+        return (color.alpha << 24) | (color.red << 16) | (color.green << 8) | color.blue;
+    }
+
+    public static RgbColor getRgbColor(int intValue) {
+        return new RgbColor(((0xff000000 & intValue) >> 24), ((0xff0000 & intValue) >> 16), ((0xff00 & intValue) >> 8), (0xff & intValue));
+    }
+
     public static XyzColor translateToXyz(RgbColor rgb) {
         double a = rgb.alpha / 255d;
         double r = rgb.red / 255d;

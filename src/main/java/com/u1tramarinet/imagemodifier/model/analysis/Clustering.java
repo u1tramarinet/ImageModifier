@@ -5,34 +5,34 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Clustering {
+public class Clustering<P extends Point> {
     private static final int TRIAL_COUNT = 10;
-    private final Distance distance;
+    private final Distance<P> distance;
 
-    public Clustering(Distance distance) {
+    public Clustering(Distance<P> distance) {
         this.distance = distance;
     }
 
-    public final Result execute(List<Pixel> pixels, int numberOfCluster) {
-        List<Pixel> points = copyPixels(pixels);
-        int degree = points.get(0).getDegree();
+    public final Result<P> execute(List<Pixel<P>> pixels, int numberOfCluster) {
+        List<Pixel<P>> points = copyPixels(pixels);
+        int degree = points.get(0).point.getDegree();
 
         // Create initial centroids
         List<Point> centroids = createInitialCentroids(numberOfCluster, points);
 
         for (int i = 0; i < TRIAL_COUNT; i++) {
             // Assign points to clusters
-            for (Pixel pixel : points) {
+            for (Pixel<P> pixel : points) {
                 double nearestClusterDistance = Double.MAX_VALUE;
                 int nearestClusterIdx = 0;
                 for (int clusterIdx = 0; clusterIdx < numberOfCluster; clusterIdx++) {
-                    double distance = this.distance.get(centroids.get(clusterIdx), pixel);
+                    double distance = this.distance.get((P) centroids.get(clusterIdx), pixel.point);
                     if (distance < nearestClusterDistance) {
                         nearestClusterDistance = distance;
                         nearestClusterIdx = clusterIdx;
                     }
                 }
-                pixel.setClusterIndex(nearestClusterIdx);
+                pixel.point.setClusterIndex(nearestClusterIdx);
             }
 
             // Recreate centroids
@@ -42,10 +42,10 @@ public class Clustering {
                 Arrays.fill(array, 0);
             }
             Arrays.fill(counts, 0);
-            for (Pixel pixel : points) {
-                int clusterIdx = pixel.getClusterIndex();
+            for (Pixel<P> pixel : points) {
+                int clusterIdx = pixel.point.getClusterIndex();
                 for (int axis = 0; axis < degree; axis++) {
-                    positions[clusterIdx][axis] += pixel.get(axis);
+                    positions[clusterIdx][axis] += pixel.point.get(axis);
                     counts[clusterIdx]++;
                 }
             }
@@ -57,34 +57,34 @@ public class Clustering {
             }
         }
 
-        List<Pixel> out = new ArrayList<>();
-        for (Pixel pixel : points) {
-            int clusterIdx = pixel.getClusterIndex();
+        List<Pixel<P>> out = new ArrayList<>();
+        for (Pixel<P> pixel : points) {
+            int clusterIdx = pixel.point.getClusterIndex();
             Point centroid = centroids.get(clusterIdx);
             out.add(new Pixel(pixel.x, pixel.y, centroid));
         }
-        return new Result(centroids, out, numberOfCluster);
+        return new Result<P>(centroids, out, numberOfCluster);
     }
 
-    private List<Pixel> copyPixels(List<Pixel> input) {
-        List<Pixel> output = new ArrayList<>();
-        for (Pixel pixel : input) {
-            output.add(new Pixel(pixel.x, pixel.y, pixel));
+    private List<Pixel<P>> copyPixels(List<Pixel<P>> input) {
+        List<Pixel<P>> output = new ArrayList<>();
+        for (Pixel<P> pixel : input) {
+            output.add(new Pixel<>(pixel.x, pixel.y, pixel));
         }
         return output;
     }
 
-    private List<Point> createInitialCentroids(int numberOfCluster, List<Pixel> pixels) {
-        int degree = pixels.get(0).getDegree();
+    private List<Point> createInitialCentroids(int numberOfCluster, List<Pixel<P>> pixels) {
+        int degree = pixels.get(0).point.getDegree();
 
         // Calculate range
         double[] minimums = new double[degree];
         double[] maximums = new double[degree];
         Arrays.fill(minimums, Double.MAX_VALUE);
         Arrays.fill(maximums, Double.MIN_VALUE);
-        for (Pixel pixel : pixels) {
+        for (Pixel<P> pixel : pixels) {
             for (int axis = 0; axis < degree; axis++) {
-                double value = pixel.get(axis);
+                double value = pixel.point.get(axis);
                 if (maximums[axis] < value) {
                     maximums[axis] = value;
                 }
@@ -121,12 +121,12 @@ public class Clustering {
         return points;
     }
 
-    public static class Result {
+    public static class Result<P extends Point> {
         final List<Point> centroids;
-        final List<Pixel> pixels;
+        final List<Pixel<P>> pixels;
         final int numberOfClusters;
 
-        private Result(List<Point> centroids, List<Pixel> pixels, int numberOfClusters) {
+        private Result(List<Point> centroids, List<Pixel<P>> pixels, int numberOfClusters) {
             this.centroids = centroids;
             this.pixels = Collections.unmodifiableList(pixels);
             this.numberOfClusters = numberOfClusters;
